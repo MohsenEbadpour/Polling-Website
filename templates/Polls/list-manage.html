@@ -1,0 +1,60 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+  <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                <i class="mdi mdi-animation"></i>
+                            </span> Polls List
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th> No. </th>
+                                            <th> Title </th>
+                                            <th> Context </th>
+                                            <th> Status </th>
+                                            <th> Action </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+  {%for p in polls %}
+                                            <td>{{forloop.counter}} </td>
+
+                                            <td> {{p.title}} </td>
+
+                                            <td> {{p.context |slice:":40"}} </td>
+                                            {% if p.is_active %}
+                                            <td><label class="badge badge-success">Active</label></td>
+                                            {% else %}
+                                            <td><label class="badge badge-danger">Deactive</label></td>
+                                            {% endif %}
+
+                                            <td>
+                                                <a href="/polls/delete/{{p.id}}"> <i class="mdi mdi-close-circle-outline"></i>&nbsp; Delete
+                                                </a>&nbsp; |&nbsp;
+                                                <a href="/polls/detail/{{p.id}}"> <i class="mdi mdi-account-card-details"></i>&nbsp; Detail and Result
+                                                 </a>&nbsp; |&nbsp;
+                                                <a href="/polls/edit/{{p.id}}"> <i class="mdi mdi-border-color"></i>&nbsp; Edit
+                                                </a>
+                                            </td>
+                                        </tr>
+{% endfor %}
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+{%endblock%}

@@ -1,0 +1,97 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+<div class="page-header">
+    <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-account-multiple-outline"></i>
+              </span> User Detail
+    </h3>
+    <nav aria-label="breadcrumb"></nav>
+</div>
+<hr />
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <address>
+                    <p class="font-weight-bold text-info"> <span class="mdi mdi-account-convert"></span> Name</p>
+                    <p> {{user_.full_name}} </p>
+                  </address>
+                <address> 
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-buffer"></span> National ID</p>
+                    <p> {{user_.national_id}} </p>
+                  </address>
+
+                <address>
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-timetable"></span> Date Joined</p>
+                    <p> {{user_.date_joined}} </p>
+                  </address>
+                
+            </div>
+            <div class="col-md-6">
+                <address>
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-email-outline"></span> Email</p>
+                    <p> {{user_.email}} </p>
+                  </address>
+
+                <address>
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-comment-account"></span> Position</p>
+                    <p> 
+                    {%if user_.user_type == "S" %}
+                    Student 
+                    {%elif user_.user_type == "P" %}
+                    Parent
+                    {%endif%}
+                    </p>
+                  </address>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row">
+{%if  votes %}
+<h4 >Selections</h4>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No. </th>
+                                <th>Poll Title</th>
+
+                                <th>Selected Choice</th>
+                                
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for vote in votes%}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td> <a href="/polls/detail/{{vote.poll.id}}">{{vote.poll.title}}</a></td>
+
+                                {%if vote.choice == "A"%}  
+                                <td>A: {{vote.poll.choice_1}}</td>
+                                {% elif vote.choice == "B" %}
+                                <td>B: {{vote.poll.choice_2}}</td>
+                                {% elif vote.choice == "C" %}
+                                <td>C: {{vote.poll.choice_3}}</td>
+                                {% elif vote.choice == "D" %}
+                                <td>D: {{vote.poll.choice_4}}</td>
+                                {%endif%}
+
+                                <td>{{vote.date_time}}</td>
+                            </tr>
+                            {%endfor%}
+
+                        </tbody>
+                    </table>
+{%endif%}
+
+</div>
+<br>
+<a class="btn btn-outline-success" href="/users/list">Back</a>
+                <a class="btn btn-outline-danger" href="/users/delete/{{user_.id}}">Delete User</a>
+    </div>
+
+</div>
+</div>
+
+{%endblock%}

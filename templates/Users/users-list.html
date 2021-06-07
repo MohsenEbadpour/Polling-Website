@@ -1,0 +1,57 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+ <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-account-convert"></i>
+              </span> Users List
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th> No. </th>
+                                            <th> Name </th>
+                                            <th> National ID </th>
+                                            <th> Position </th>
+                                            <th> Email </th>
+                                            <th> Detail </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {%for u in users %}
+                                        <tr>
+                                            <td> {{forloop.counter}} </td>
+                                            <td> {{u.full_name}} </td>
+                                            <td>  {{u.national_id}}</td>
+                                            <td>
+                                            {%if u.user_type == "S" %}
+                                            <label class="badge badge-success">Student</label>
+                                            {%elif u.user_type == "P"%}
+                                            <label class="badge badge-danger">Parent</label>
+                                            {%endif%}
+                                            </td>
+                                            <td>  {{u.email}}</td>
+                                            <td>
+                                                <a href="/users/detail/{{u.id}}"> <i class="mdi mdi-account-card-details"></i> | Detail and Polls`s Result </a>
+                                            </td>
+                                        </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+{%endblock%}

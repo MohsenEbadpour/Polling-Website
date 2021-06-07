@@ -1,0 +1,79 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+
+<div class="page-header">
+    <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                <i class="mdi mdi-playlist-plus"></i>
+                            </span> New Poll
+    </h3>
+    <nav aria-label="breadcrumb"></nav>
+</div>
+<hr />
+
+
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-body">
+
+            <form class="forms-sample" method="POST" action="/polls/new/" enctype="multipart/form-data"> {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
+                </div>
+                <div class="form-group">
+                    <label for="context">Context</label>
+                    <textarea class="form-control" id="context" name="context" rows="4"></textarea required>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="c1">Choice A</label>
+                        <input type="text" class="form-control" id="c1" name="c1" placeholder="Choice #1" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="c2">Choice B</label>
+                        <input type="text" class="form-control" id="c2" name="c2" placeholder="Choice #2" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="c3">Choice C</label>
+                        <input type="text" class="form-control" id="c3" name="c3" placeholder="Choice #3" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="c4">Choice D</label>
+                        <input type="text" class="form-control" id="c4" name="c4" placeholder="Choice #4" required>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" accept='image/*|video/*' class="custom-file-input" id="img" name ="img">
+                            <label class="custom-file-label" for="img">Choose image/video (Optional)</label>
+                          </div>
+                      </div>
+
+                      
+  
+                      <div class="form-group">
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="active" name="active" checked>
+                        <label class="custom-control-label" for="active">Active</label>
+                      </div>
+                      </div>
+
+                      
+                      <a class="btn btn-light btn-rounded" href="/">Cancel</a>
+                      <button type="submit" class="btn btn-gradient-success btn-rounded mr-2">Submit</button>
+                    </form>
+                    <script>
+                        // Add the following code if you want the name of the file appear on select
+                        $(".custom-file-input").on("change", function() {
+                          var fileName = $(this).val().split("\\").pop();
+                          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                        });
+                        </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+{%endblock%}

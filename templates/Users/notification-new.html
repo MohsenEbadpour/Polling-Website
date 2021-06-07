@@ -1,0 +1,41 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+ <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                <i class="mdi mdi-newspaper"></i>
+                            </span> New Notification
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <form class="forms-sample" method="POST" action="/notification/new">{% csrf_token %}
+                                    <div class="form-group row">
+                                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Title</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="title" placeholder="Title" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Context</label>
+                                        <div class="col-sm-9">
+                                            <textarea type="text" class="form-control"  name="context" placeholder="Context" required></textarea>
+                                        </div>
+                                    </div>
+
+                     
+
+                                    <button type="submit" class="btn btn-gradient-primary mr-2">Create</button>
+                                    <a class="btn btn-light" href="/">Cancel</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+{%endblock%}

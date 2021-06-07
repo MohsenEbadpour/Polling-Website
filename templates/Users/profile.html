@@ -1,0 +1,56 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+ <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-contacts"></i>
+              </span> My Profile
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <address>
+                    <p class="font-weight-bold text-info"> <span class="mdi mdi-account-convert"></span> Name</p>
+                    <p> {{request.user.full_name}} </p>
+                  </address>
+                                    <address> 
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-buffer"></span> National ID</p>
+                    <p> {{request.user.national_id}} </p>
+                  </address>
+
+                   <address>
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-timetable"></span> Date Joined</p>
+                    <p> {{request.user.date_joined}} </p>
+                  </address>
+                                </div> 
+                                <div class="col-md-6"> 
+                                    <address >
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-email-outline"></span> Email</p>
+                    <p> {{request.user.email}} </p>
+                  </address>
+
+                  <address >
+                    <p class="font-weight-bold text-info"><span class="mdi mdi-comment-account"></span> Position</p>
+                    <p> 
+                    {%if request.user.user_type == "M" %}
+                    Manager 
+                    {%elif request.user.user_type == "D" %}
+                    Deputy
+                    {%elif request.user.user_type == "S" %}
+                    Student 
+                    {%elif request.user.user_type == "P" %}
+                    Parent
+                    {%endif%}
+                    </p>
+                  </address>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+{%endblock%}

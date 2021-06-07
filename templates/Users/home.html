@@ -1,0 +1,282 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+{%if not is_sp%}
+ <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-home"></i>
+              </span> Dashboard
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-4 stretch-card grid-margin">
+                            <div class="card bg-gradient-danger card-img-holder text-white">
+                                <div class="card-body">
+                                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
+                                    <h4 class="font-weight-normal mb-3">
+                                        All Users
+                                        <i class="mdi mdi-account-multiple mdi-24px float-right"></i>
+                                    </h4>
+                                    <h2 class="mb-5">{{len_users}}</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 stretch-card grid-margin">
+                            <div class="card bg-gradient-info card-img-holder text-white">
+                                <div class="card-body">
+                                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
+                                    <h4 class="font-weight-normal mb-3">
+                                        All Polls
+                                        <i class="mdi mdi-poll mdi-24px float-right"></i> 
+
+                                    </h4>
+                                    <h2 class="mb-5">{{len_polls}}</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 stretch-card grid-margin">
+                            <div class="card bg-gradient-success card-img-holder text-white">
+                                <div class="card-body">
+                                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
+                                    <h4 class="font-weight-normal mb-3">
+                                        All Votes
+                                        <i class="mdi mdi-rename-box mdi-24px float-right"></i>
+                                    </h4>
+                                    <h2 class="mb-5">{{len_votes}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-header">
+    <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-chart-areaspline"></i>
+              </span> Last Poll Detail
+    </h3>
+    <nav aria-label="breadcrumb"></nav>
+</div>
+<hr />
+<div class="row">
+{%if votes %}
+    <div class="col-sm-8 grid-margin stretch-card">
+    {%else%}
+    <div class="col-sm-12 grid-margin stretch-card">
+    {%endif%}
+        <div class="card">
+            <div class="card-body">
+            
+                <h3>{{poll.title}} </h3>
+                
+
+              
+                <p style="text-align: justify;">{{poll.context}} </p>
+                 {% if poll.photo %} {%if file_type == "image" %}
+
+                <div class="p-2 grey">
+                    <img src="{{poll.photo.url}}" class="img-thumbnail float-center" style="
+                          display: block;
+                          margin-left: auto;
+                          margin-right: auto;
+                          width: 350px;
+  height: 200px;
+  object-fit: cover;
+                        " alt="Responsive image" />
+                    <figcaption class="figure-caption text-center">
+                        Poll Image
+                    </figcaption>
+                </div>
+                 {% elif file_type == "video"%}
+                <div class="p-2 grey">
+                    <video controls class="float-center" style="
+                          display: block;
+                          margin-left: auto;
+                          margin-right: auto;
+                          width: 350px;
+  height: 200px;
+  object-fit: cover;
+                        " alt="Responsive image"> <source src="{{ poll.photo.url }}"> </video>
+                </div>
+                {%endif%} {% else %}
+
+                <h6>This poll has not media</h6>
+                 {% endif %}
+
+                     <p><b>A:</b> {{poll.choice_1}}</p>
+            <p><b>B:</b> {{poll.choice_2}}</p>
+            <p><b>C:</b> {{poll.choice_3}}</p>
+            <p><b>D:</b> {{poll.choice_4}}</p>
+                <br> {% if poll.is_active %}
+                <p><b>Activation: <label class="badge badge-success">Active for polling</label></b></p>
+                {% else %}
+                <p><b>Activation: <label class="badge badge-danger">Deactive for polling</label></b></p>
+                {% endif %}
+
+                <p>
+                    <footer class="blockquote-footer">Created: {{poll.date_time}}</footer>
+                </p>
+                <p>
+                    <b>{%if not votes %} <span class="mdi mdi-arrow-right-bold"></span><u>Nobody voted to this poll yet</u>{%endif%}</b>
+                </p>
+                <hr>
+{%if  votes %}
+<h4 >Selections</h4>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No. </th>
+                                <th>Full Name</th>
+
+                                <th>National ID</th>
+                                <th>Option</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for vote in votes%}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td> <a href="/users/detail/{{vote.user.id}}">{{vote.user.full_name}}</a></td>
+                                <td>{{vote.user.national_id}}</td>
+                                <td>{{vote.choice}}</td>
+                                <td>{{vote.date_time|date:'d M Y'}}</td>
+                            </tr>
+                            {%endfor%}
+
+                        </tbody>
+                    </table>
+{%endif%}
+            
+<br>
+                <a class="btn btn-outline-primary" href="/polls/detail/{{poll.id}}">Detail and Edit</a>
+
+            </div>
+
+        </div>
+
+    </div>
+    {%if votes %}
+
+    <div class="col-sm-4 grid-margin stretch-card">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+
+
+                    <h4 class="card-title">Result</h4>
+                    <div id="chartContainer" style="height: 370px; width: 370px;"></div>
+                    <br>
+                    <div id="chartContainer2" style="height: 370px; width: 370px%;"></div>
+                    <br />
+                    
+                </div>
+                {%endif%}
+
+            </div>
+            
+        </div>
+         </div>
+                            </div>
+                            {%else%}
+
+                             <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                 <i class="mdi mdi-home"></i>
+                            </span> Dashboard
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+
+{% for noti in notifications %}
+<h4>{{noti.title}}</h4>
+                    <blockquote class="blockquote blockquote-info">
+                      <p>{{noti.context}}</p>
+                      <footer class="blockquote-footer">{{noti.date_time}}</footer>
+                    </blockquote>
+<hr/>
+                                {%endfor%}
+{%if empty%}<h4>There is no any notification in your dashboard</h4>
+{%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                            {%endif%}
+        {%endblock%} {% block charts %}
+        <script>
+            window.onload = function() {
+
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Doughnut Chart"
+                    },
+                    data: [{
+                        type: "doughnut",
+                        startAngle: 80,
+                        //innerRadius: 60,
+                        indexLabelFontSize: 17,
+                        indexLabel: "{label} - #percent%",
+                        toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+                        dataPoints: [{
+                            y: {{A}},
+                            label: "A"
+                        }, {
+                            y: {{B}},
+                            label: "B"
+                        }, {
+                            y: {{C}},
+                            label: "C"
+                        }, {
+                            y: {{D}},
+                            label: "D"
+                        }]
+                    }]
+                });
+
+                chart.render();
+
+                var chart2 = new CanvasJS.Chart("chartContainer2", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Bar Chart"
+                    },
+                    data: [{
+                        type: "column",
+                        startAngle: 80,
+                        //innerRadius: 60,
+                        indexLabelFontSize: 17,
+                        indexLabel: "{label}",
+                        
+                        dataPoints: [{
+                            y: {{A}},
+                            label: "A"
+                        }, {
+                            y: {{B}},
+                            label: "B"
+                        }, {
+                            y: {{C}},
+                            label: "C"
+                        }, {
+                            y: {{D}},
+                            label: "D"
+                        }]
+                    }]
+                });
+
+                chart2.render();
+
+            }
+        </script> {%endblock%}
+
+
+                            

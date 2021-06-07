@@ -1,0 +1,108 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+
+<div class="page-header">
+    <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                <i class="mdi mdi-format-list-bulleted"></i>
+                            </span> Open Polls
+    </h3>
+    <nav aria-label="breadcrumb"></nav>
+</div>
+{%if polls%} {%for poll,file_type in polls%}
+<hr>
+<div class="page-header">
+    <nav aria-label="breadcrumb"></nav>
+</div>
+<div class="col-sm-8">
+    <div class="card">
+        <div class="card-body">
+
+            <h3>{{poll.title}} </h3>
+
+
+            <p style="text-align: justify;">{{poll.context}} </p>
+            {% if poll.photo %} {%if file_type == "image" %}
+
+            <div class="p-2 grey">
+                <img src="{{poll.photo.url}}" class="img-thumbnail float-center" style="
+                          display: block;
+                          margin-left: auto;
+                          margin-right: auto;
+                          width: 350px;
+  height: 200px;
+  object-fit: cover;
+                        " alt="Responsive image" />
+                <figcaption class="figure-caption text-center">
+                    Poll Image
+                </figcaption>
+            </div>
+            {% elif file_type == "video"%}
+            <div class="p-2 grey">
+                <video controls class="float-center" style="
+                          display: block;
+                          margin-left: auto;
+                          margin-right: auto;
+                          width: 350px;
+  height: 200px;
+  object-fit: cover;
+                        " alt="Responsive image"> <source src="{{ poll.photo.url }}"> </video>
+            </div>
+            {%endif%} {% else %}
+
+            <h6>This poll has not media</h6>
+            {% endif %}
+
+
+            <form method="POST" action="/polls/open-polls">{% csrf_token %}
+
+
+
+
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="choice" id="A" value="A" required> A: {{poll.choice_1}} <i class="input-helper"></i></label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="choice" id="B" value="B" required> B: {{poll.choice_2}} <i class="input-helper"></i></label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="choice" id="C" value="C" required> C: {{poll.choice_3}} <i class="input-helper"></i></label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="choice" id="D" value="D" required> D: {{poll.choice_4}} <i class="input-helper"></i></label>
+                    </div>
+                </div>
+                <p>
+                    <footer class="blockquote-footer">Created: {{poll.date_time}}</footer>
+                </p>
+                <input type="hidden" name="poll_id" id="poll_id" value="{{poll.id}}">
+                <button type="submit" class="btn btn-outline-success">Submit Poll</button>
+            </form>
+
+
+
+
+        </div>
+    </div>
+</div>
+{%endfor%} {%else%}
+<div class="col-sm-8">
+    <div class="card">
+        <div class="card-body">
+
+            <h4>There is no any active poll that you can choose</h4>
+
+        </div>
+    </div>
+</div>
+{%endif%}
+
+
+</div>
+
+{%endblock%}

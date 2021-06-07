@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>UMA Polling</title>
+    <!-- plugins:css -->
+    <script src="https://use.fontawesome.com/055e811e75.js"></script>
+    <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" />
+        {% block charts %} {% endblock charts %}
+
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <i class="mdi mdi-36px mdi-poll"></i>
+                <h4>UMA Polling</h4>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-stretch">
+
+                </button>
+
+                <ul class="navbar-nav navbar-nav-right">
+                    <li>
+                        Created By:
+                        <u><b style="color: black">Mohsen Ebadpour - 9644333125</b></u>
+                    </li>
+                    <li class="nav-item d-none d-lg-block full-screen-link">
+                        <a class="nav-link">
+                            <i class="mdi mdi-fullscreen" id="fullscreen-button"></i> Full Screen
+                        </a>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item nav-profile">
+                        <a href="#" class="nav-link">
+                            <div class="nav-profile-image">
+                                <img src="{% static 'assets/images/faces/face1.jpg' %}" alt="profile" />
+                                <span class="login-status online"></span>
+                                <!--change to offline or busy as needed-->
+                            </div>
+                            <div class="nav-profile-text d-flex flex-column">
+                                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+                                <span class="font-weight-bold mb-2">{{ request.user.full_name }} </span> {% if request.user.user_type == "M" %}
+                                <span class="text-secondary text-small">Manager</span> {%elif request.user.user_type == "D" %}
+                                <span class="text-secondary text-small">Deputy</span> {%elif request.user.user_type == "S" %}
+                                <span class="text-secondary text-small">Student</span> {%elif request.user.user_type == "P" %}
+                                <span class="text-secondary text-small">Parent</span> {%endif%}
+
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">
+                            <span class="">Dashboard</span>
+                            <i class="mdi mdi-home menu-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item sidebar-actions">
+                        <span class="nav-link">
+              <div class="border-bottom">
+                <h4 class="font-weight-normal mb-3"><b>Account</b></h4>
+              </div>
+            </span>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile">
+                            <span class="">My Profile</span>
+                            <i class="mdi mdi-contacts menu-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/change-password">
+                            <span class="">Change Password</span>
+                            <i class="mdi mdi-key-variant menu-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout">
+                            <span class="">Sign Out</span>
+                            <i class="mdi mdi-logout menu-icon"></i>
+                        </a>
+                    </li>
+
+                    {%if request.user.user_type == "P" or request.user.user_type == "S"%}
+
+                    <li class="nav-item sidebar-actions">
+                        <span class="nav-link">
+              <div class="border-bottom">
+                <h4 class="font-weight-normal mb-3"><b>Polls</b></h4>
+              </div>
+            </span>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/polls/open-polls">
+                            <span class="">Open Polls</span>
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/polls/my-history">
+                            <span class="">History</span>
+                            <i class="mdi mdi-history menu-icon"></i>
+                        </a>
+                    </li>
+
+
+
+                    {% else %}
+                    <li class="nav-item sidebar-actions">
+                        <span class="nav-link">
+              <div class="border-bottom">
+                <h4 class="font-weight-normal mb-3"><b>Polls</b></h4>
+              </div>
+            </span>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/polls/list-manage">
+                            <span class="">Polls List & Results</span>
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                        </a>
+                    </li>
+
+                       <li class="nav-item active">
+                        <a class="nav-link" href="/polls/all-selections">
+                            <span class="">All Selections</span>
+                            <i class="mdi mdi-adjust menu-icon"></i>
+                        </a>
+                    </li>
+
+    
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/polls/new">
+                            <span class="">Create New Poll</span>
+                            <i class="mdi mdi-playlist-plus menu-icon"></i>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item sidebar-actions">
+                        <span class="nav-link">
+              <div class="border-bottom">
+                <h4 class="font-weight-normal mb-3"><b>Users</b></h4>
+              </div>
+            </span>
+                    </li>
+
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/users/list">
+                            <span class="">Users List</span>
+                            <i class="mdi mdi-account-convert menu-icon"></i>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/users/add-new-student">
+                            <span class="">Add New student</span>
+                            <i class="mdi mdi-account-plus menu-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/users/add-new-parent">
+                            <span class="">Add New Parent</span>
+                            <i class="mdi mdi-account-multiple menu-icon"></i>
+                        </a>
+                    </li>
+
+
+
+
+                    <li class="nav-item sidebar-actions">
+                        <span class="nav-link">
+              <div class="border-bottom">
+                <h4 class="font-weight-normal mb-3"><b>Notifications</b></h4>
+              </div>
+            </span>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/notification/list">
+                            <span class="">Notifications List</span>
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/notification/new">
+                            <span class="">Create New Notification</span>
+                            <i class="mdi mdi-newspaper menu-icon"></i>
+                        </a>
+                    </li>
+
+
+                    {%endif%}
+                </ul>
+            </nav>
+            <!-- partial -->
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    {%if messages %}
+                    <section class="font font-bbcnassim-all">{%for message in messages%}
+                        <div class="alert alert-info alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{message}}
+                        </div>
+                        {% endfor %} </section>{% endif %}
+
+                    <!--================================================================================================================================================================-->
+                    <!--================================================================================================================================================================-->
+                    {% block content %} {% endblock content %}
+
+
+
+
+                    <!--================================================================================================================================================================-->
+                    <!--================================================================================================================================================================-->
+                </div>
+            </div>
+        </div>
+
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2020
+              <a href="mailto:mohsenebadpour@outlook.com" target="_blank">Mohsen Ebadpour</a>. All rights
+              reserved.</span>
+            </div>
+        </footer>
+        <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+
+
+
+
+    <script src="https://use.fontawesome.com/055e811e75.js"></script>
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js'%}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'assets/vendors/chart.js/Chart.min.js'%}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'assets/js/off-canvas.js'%}"></script>
+    <script src="{% static 'assets/js/hoverable-collapse.js'%}"></script>
+    <script src="{% static 'assets/js/misc.js'%}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'assets/js/dashboard.js'%}"></script>
+    <script src="{% static 'assets/js/todolist.js'%}"></script>
+    <script src="{% static 'assets/js/chart.js'%}"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <!-- End custom js for this page -->
+</body>
+
+</html>

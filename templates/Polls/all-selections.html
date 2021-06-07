@@ -1,0 +1,56 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+ <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-adjust"></i>
+              </span> All selected options in all polls
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th> No. </th>
+                                            <th> Poll Title </th>
+                                            <th> User Name </th>
+                                            <th> Selected Option </th>
+                                            <th> Date Time </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {%for vote in votes %}
+                                        <tr>
+                                            <td> {{forloop.counter}} </td>
+                                            <td>  <a href="/polls/detail/{{vote.poll.id}}">{{vote.poll.title}} </td>
+                                            <td>  <a href="/users/detail/{{vote.user.id}}">{{vote.user.full_name}}</a></td>
+                                            {%if vote.choice == "A"%}  
+                                <td>A: {{vote.poll.choice_1}}</td>
+                                {% elif vote.choice == "B" %}
+                                <td>B: {{vote.poll.choice_2}}</td>
+                                {% elif vote.choice == "C" %}
+                                <td>C: {{vote.poll.choice_3}}</td>
+                                {% elif vote.choice == "D" %}
+                                <td>D: {{vote.poll.choice_4}}</td>
+                                {%endif%}
+
+                                            <td>  {{vote.date_time}}</td>                                            
+                                        </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+{%endblock%}

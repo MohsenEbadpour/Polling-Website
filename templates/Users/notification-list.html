@@ -1,0 +1,32 @@
+{% extends "base.html"%} {% block content %} {% load static %}
+ <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                <i class="mdi mdi-format-list-bulleted"></i>
+                            </span> Notifications List
+                        </h3>
+                        <nav aria-label="breadcrumb"></nav>
+                    </div>
+                    <hr />
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+
+{% for noti in notifications %}
+<h4>{{noti.title}}</h4>
+                    <blockquote class="blockquote blockquote-info">
+                      <p>{{noti.context}}</p>
+                      <footer class="blockquote-footer">{{noti.date_time}}</footer>
+                    </blockquote>
+                    <a type="button" class="btn btn-outline-dark btn-fw" href="/notification/delete/{{noti.id}}">Delete</a>
+<hr/>
+                                {%endfor%}
+{%if empty%}<h4>There is no any notification</h4>
+{%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+{%endblock%}
